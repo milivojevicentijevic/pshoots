@@ -2,6 +2,23 @@
 include 'config.php';
 
 // if the update button is clicked, we do process the form
+if (isset($_POST['update'])) {
+    $firstname = $_POST['firstname'];
+    $user_id = $_POST['user_id'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $gender = $_POST['gender'];
+    // query
+    $sql = "UPDATE users SET firstname ='$firstname', lastname ='$lastname', email='$email', password='$password', gender='$gender' WHERE id=$user_id";
+    // execution
+    $result = $conn->query($sql);
+    if ($result == TRUE) {
+        echo "New updated successfully";
+    } else {
+        echo "Error:".$sql."<br>".$conn->error;
+    }
+}
 
 // if the 'id' variable is set in the url, we can edit our record
 if(isset($_GET['id'])) {
@@ -37,7 +54,7 @@ if(isset($_GET['id'])) {
                 <input type="radio" name="gender" value="Male" <?php if($gender == "Male") { echo "checked";} ?>>Male
                 <input type="radio" name="gender" value="Female" <?php if($gender == "Female") { echo "checked";} ?>>Female
                 <br><br>
-                <input type="submit" name="submit" value="Submit">
+                <input type="submit" name="update" value="Update">
             </fieldset>
         </form>
     <?php
