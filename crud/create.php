@@ -1,5 +1,24 @@
 <?php
 include 'config.php';
+
+if(isset($_POST['submit'])) {
+    // get variables from the form
+    $first_name = $_POST['firstname'];
+    $last_name = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $gender = $_POST['gender'];
+    // write sql query
+    $sql = "INSERT INTO users (firstname, lastname, email, password, gender) VALUES ('$first_name','$last_name', '$email', '$password','$gender')";
+    // execute the query
+    $result = $conn->query($sql);
+    if ($result == TRUE) {
+        echo "New record created successfully";
+    } else {
+        echo "Error:".$sql."<br>".$conn->error;
+    }
+    $conn->close();
+}
 ?>
 
 <html lang="en">
