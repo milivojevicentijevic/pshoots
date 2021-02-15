@@ -1,22 +1,10 @@
-<?php
-include 'config.php';
+<?php include 'parts/header.php'; ?>
 
-// getting data from the users table
-$sql = "SELECT * FROM users";
-$result = $conn->query($sql);
-?>
-
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
-    <title>View Page</title>
-</head>
-<body>
-    <div class="container">
-        <h2>Users</h2>
-        <table class="table">
+<div class="container col-md-8 offset-md-2 mt-2">
+    <div class="row">
+    <h2>Users</h2>
+        <table class="table caption-top">
+            <caption>Data</caption>
             <thead>
                 <tr>
                     <th>ID</th>
@@ -28,28 +16,26 @@ $result = $conn->query($sql);
                 </tr>
             </thead>
             <tbody>
-                <?php
-                    if ($result->num_rows > 0) {
-                        // output data of each row
-                        while ($row = $result->fetch_assoc()) {
-                    ?>
-                            <tr>
-                                <td><?php echo $row['id']; ?></td>
-                                <td><?php echo $row['firstname']; ?></td>
-                                <td><?php echo $row['lastname']; ?></td>
-                                <td><?php echo $row['email']; ?></td>
-                                <td><?php echo $row['gender']; ?></td>
-                                <td>
-                                    <a href="update.php?id=<?php echo $row['id']; ?>" class="btn btn-info">Edit</a>&nbsp;
-                                    <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger">Delete</a>
-                                </td>
-                            </tr>
-                    <?php
-                        }
-                    }
-                ?>
+                <?php if ($results->num_rows > 0): 
+                    while ($row = $results->fetch_assoc()): ?>
+                        <tr>
+                            <td><?php echo $row['id']; ?></td>
+                            <td><?php echo $row['firstname']; ?></td>
+                            <td><?php echo $row['lastname']; ?></td>
+                            <td><?php echo $row['email']; ?></td>
+                            <td><?php echo $row['gender']; ?></td>
+                            <td>
+                                <a href="update.php?id=<?php echo $row['id']; ?>" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit the entry">Edit</a>&nbsp;
+                                <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete the entry">Delete</a>
+                            </td>
+                        </tr>
+                    <?php endwhile;
+                endif; ?>
             </tbody>
         </table>
-    </div> 
-</body>
-</html>
+    </div>
+</div> 
+<?php include 'parts/footer.php'; ?>
+
+ 
+
