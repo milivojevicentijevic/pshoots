@@ -1,6 +1,6 @@
 <?php
+$title = "Create Page";
 include 'parts/header.php';
-
 $first_name = '';
 $last_name = '';
 $email = '';
@@ -21,9 +21,9 @@ if(isset($_POST['submit'])) {
         $result = $conn->query($insert_query);
         // message in the create.php page
         if ($result == TRUE) {
-            echo "New record created successfully";
+            echo "New record created successfully"; // alert
         } else {
-            echo "Error:".$insert_query."<br>".$conn->error;
+            echo "Error:".$insert_query."<br>".$conn->error; // alert
         }
         $conn->close();
     } else {
@@ -35,11 +35,54 @@ if(isset($_POST['submit'])) {
         if (!empty($_POST['gender'])){ $gender = $_POST['gender']; }
     }
 }
+
+// select one of data to update
+if(isset($_GET['edit'])) {
+    $id = $_GET['edit'];
+
+    $update = true;
+
+    $select_id_query = "SELECT * FROM users WHERE id=$id";
+    $result = $conn->query($select_id_query) or die($conn->error);
+    if($result->num_rows > 0) {
+        while ( $row = $result->fetch_assoc()) {
+            $first_name = $row['firstname'];
+            $last_name = $row['lastname'];
+            $email = $row['email'];
+            $password = $row['password'];
+            $gender = $row['gender'];
+            $id = $row['id'];
+        }
+    } else {
+        // if the 'id' value is not valid
+        header('location: view.php');
+    }
+}
+// update one of data
+if(isset($_POST['update'])) {
+    $id = $_POST['id'];  // hidden input field
+    $firstname = $_POST['firstname'];
+    $lastname = $_POST['lastname'];
+    $email = $_POST['email'];
+    $password = $_POST['password'];
+    $gender = $_POST['gender'];
+
+    $update_query= "UPDATE users SET firstname ='$firstname', lastname ='$lastname', email='$email', password='$password', gender='$gender' WHERE id=$id";
+
+    $result = $conn->query($update_query) or die($conn->error);
+    if ($result == TRUE) {
+        echo "New updated successfully";
+    } else {
+        echo "Error:".$sql."<br>".$conn->error;
+    }
+}
+
 ?>
 <div class="container col-md-4 offset-md-4 my-3">
     <h1>Signup Form</h1>
     <h4>Personal information:</h4>
     <form action="" method="POST">
+    <input type="hidden" name="id" value="<?php echo $id; ?>">
     <div class="mb-3">
         <label for="firstname" class="form-label">First name:</label>
         <input type="text" class="form-control" id="firstname" name="firstname" value="<?php echo $first_name?>">
@@ -66,7 +109,11 @@ if(isset($_POST['submit'])) {
         <label class="form-check-label" for="female">Female</label>
     </div>
     <div class="mb-3">
-        <button type="submit" name="submit" class="btn btn-primary">Submit</button>
+        <?php if($update == true): ?>
+            <button type="submit" class="btn btn-info" name="update">Update</button>
+        <?php else: ?>
+            <button type="submit" class="btn btn-primary" name="submit">Save</button>
+        <?php endif; ?>
     </div>
     </form>
 </div>

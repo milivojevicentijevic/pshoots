@@ -1,5 +1,5 @@
+<?php $title = "View Page"; ?>
 <?php include 'parts/header.php'; ?>
-
 <div class="container col-md-8 offset-md-2 mt-2">
     <div class="row">
     <h2>Users</h2>
@@ -25,7 +25,7 @@
                             <td><?php echo $row['email']; ?></td>
                             <td><?php echo $row['gender']; ?></td>
                             <td>
-                                <a href="update.php?id=<?php echo $row['id']; ?>" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit the entry">Edit</a>&nbsp;
+                                <a href="create.php?edit=<?php echo $row['id']; ?>" class="btn btn-info" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Edit the entry">Edit</a>&nbsp;
                                 <a href="delete.php?id=<?php echo $row['id']; ?>" class="btn btn-danger" data-bs-toggle="tooltip" data-bs-placement="bottom" title="Delete the entry">Delete</a>
                             </td>
                         </tr>
